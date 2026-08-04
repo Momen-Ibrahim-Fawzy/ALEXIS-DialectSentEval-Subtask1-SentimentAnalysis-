@@ -21,7 +21,7 @@ Usage:
   CUDA_VISIBLE_DEVICES=0 conda run -n mo python3 calibrated_cross_backbone_ensemble.py
 """
 import os as _os, sys as _sys
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "src"))
 
 import os
 import zipfile

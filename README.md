@@ -32,7 +32,15 @@ system code behind our DialectSentEval 2026 Subtask 1 system-description paper.
    Lebanese test sentences is the highest of any test dialect). Random k-fold alone would
    look optimistic since it never simulates an unseen dialect the way the real test does.
 
-## Files
+## Layout
+
+```
+src/           core library + main entrypoints (see table below)
+experiments/   every one-off ablation/diagnostic script (42 files)
+assets/        logos used in this README
+```
+
+## Files (all under `src/`)
 
 | File | Purpose |
 |---|---|
@@ -46,12 +54,17 @@ system code behind our DialectSentEval 2026 Subtask 1 system-description paper.
 | `run_experiment.py` | `--technique {name, all}` — runs one technique at a time against the same base backbone, each independently CV'd and leaderboard-scored; imported as `run_experiment as re` by most scripts in `experiments/` |
 | `log_submission.py` | `--tag <name> --note "..."` snapshots a submission (predictions + config + CV/LODO metrics) into `submissions/` and logs it to `SUBMISSIONS_LOG.md`; `--record <tag> --f1 ...` records the official leaderboard score once it's back |
 | `regenerate_reports.py` | rebuilds summary reports from logged submissions |
-| `SUBMISSIONS_LOG.md` | full experiment log: every technique tried, CV/official metrics |
-| `experiments/` | every `*_check.py`, `cross_backbone_*.py`, and `self_train_*.py` script — one file per individually leaderboard-scored ablation, referenced in `SUBMISSIONS_LOG.md` and in the paper's ablation table. Each imports the root-level modules above directly (e.g. `import config as cfg`) via a small `sys.path` shim at the top of the file, so run them from anywhere — no path changes needed. |
+
+`SUBMISSIONS_LOG.md` (repo root) is the full experiment log: every technique tried, CV/official
+metrics. `experiments/` holds every `*_check.py`, `cross_backbone_*.py`, and `self_train_*.py`
+script — one file per individually leaderboard-scored ablation referenced there and in the
+paper's ablation table. Each imports the `src/` modules above directly (e.g. `import config as
+cfg`) via a small `sys.path` shim at the top of the file, so run them from anywhere — no path
+changes needed.
 
 Model checkpoints, raw run outputs, and the released shared-task data are not included in
-this repository (see `.gitignore`) — `train.py --mode final` regenerates checkpoints under
-`checkpoints/`, and `predict.py` writes `outputs/predictions.zip`.
+this repository (see `.gitignore`) — `src/train.py --mode final` regenerates checkpoints under
+`checkpoints/`, and `src/predict.py` writes `outputs/predictions.zip`.
 
 ## How to run
 
@@ -62,20 +75,20 @@ trains the 3-backbone FGM ensemble, and writes its own submission zip in one com
 
 ```bash
 pip install -r requirements.txt
-cd System   # this repo's root, once cloned
+cd ALEXIS-DialectSentEval-Subtask1-SentimentAnalysis-   # this repo's root, once cloned
 python3 experiments/cross_backbone_char_noise.py   # -> outputs/exp_cross_backbone_char_noise/predictions.zip
 ```
 
-`train.py` + `predict.py` are the earlier, simpler baseline pipeline (plain ensemble, no
-FGM, no char-noise, no self-training unless you separately pass a pseudo-labeled CSV via
+`src/train.py` + `src/predict.py` are the earlier, simpler baseline pipeline (plain ensemble,
+no FGM, no char-noise, no self-training unless you separately pass a pseudo-labeled CSV via
 `--extra_data_path`) — useful for the CV/LODO diagnostics below, but **will not by itself
 reproduce the paper's headline number**:
 
 ```bash
-python3 train.py --mode cv     # metrics only, no checkpoints kept
-python3 train.py --mode lodo   # zero-shot-dialect diagnostic
-python3 train.py --mode final  # trains + saves the models predict.py uses
-python3 predict.py             # -> outputs/predictions.zip
+python3 src/train.py --mode cv     # metrics only, no checkpoints kept
+python3 src/train.py --mode lodo   # zero-shot-dialect diagnostic
+python3 src/train.py --mode final  # trains + saves the models predict.py uses
+python3 src/predict.py             # -> outputs/predictions.zip
 ```
 
 Every other script under `experiments/` is one individually leaderboard-scored ablation
@@ -88,7 +101,7 @@ A CUDA GPU is strongly recommended (set `CUDA_VISIBLE_DEVICES` for your setup); 
 ## Data
 
 This repository does not redistribute the DialectSentEval 2026 shared-task dataset.
-`config.py` expects the released train/test files under `../Data/`; obtain them from the
+`src/config.py` expects the released train/test files under `../Data/`; obtain them from the
 official shared task page.
 
 ## Submission format
