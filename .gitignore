@@ -1,1 +1,11 @@
 __pycache__/
+*.pyc
+checkpoints/
+outputs/
+submissions/
+Data/
+*.pt
+*.bin
+*.zip
+*.csv
+*.log
