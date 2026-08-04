@@ -1,0 +1,9 @@
+numpy==1.26.4
+pandas==3.0.2
+scikit-learn==1.8.0
+torch==2.11.0
+transformers==5.5.0
+
+# torch was run against a CUDA 12.8 build (torch==2.11.0+cu128) on the original
+# training machine; install the CPU/CUDA build matching your own hardware from
+# https://pytorch.org/get-started/locally/
