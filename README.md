@@ -42,8 +42,10 @@ system code behind our DialectSentEval 2026 Subtask 1 system-description paper.
 | `losses.py` | class-weighted loss and loss variants used across ablations |
 | `train.py` | `--mode {cv, lodo, final}` — see below |
 | `predict.py` | builds `outputs/predictions.csv` + `outputs/predictions.zip` |
+| `predict_single_backbone.py` | prediction with a single backbone (diagnostic) |
+| `regenerate_reports.py` | rebuilds summary reports from logged submissions |
 | `SUBMISSIONS_LOG.md` | full experiment log: every technique tried, CV/official metrics |
-| `*_check.py`, `cross_backbone_*.py`, `self_train_*.py` | individual ablation experiments referenced in `SUBMISSIONS_LOG.md` and in the paper's ablation table |
+| `experiments/` | every `*_check.py`, `cross_backbone_*.py`, and `self_train_*.py` script — one file per individually leaderboard-scored ablation, referenced in `SUBMISSIONS_LOG.md` and in the paper's ablation table. Each imports the root-level modules above directly (e.g. `import config as cfg`) via a small `sys.path` shim at the top of the file, so run them from anywhere — no path changes needed. |
 
 Model checkpoints, raw run outputs, and the released shared-task data are not included in
 this repository (see `.gitignore`) — `train.py --mode final` regenerates checkpoints under
@@ -52,14 +54,14 @@ this repository (see `.gitignore`) — `train.py --mode final` regenerates check
 ## How to run
 
 **To reproduce the paper's final result (Macro F1 = 0.8667):** run the deployed recipe
-directly. `cross_backbone_char_noise.py` is fully self-contained — it loads the data, adds
-mild-filtered self-training pseudo-labels and character-noise augmentation, trains the
-3-backbone FGM ensemble, and writes its own submission zip in one command:
+directly. `experiments/cross_backbone_char_noise.py` is fully self-contained — it loads the
+data, adds mild-filtered self-training pseudo-labels and character-noise augmentation,
+trains the 3-backbone FGM ensemble, and writes its own submission zip in one command:
 
 ```bash
 pip install -r requirements.txt
 cd System   # this repo's root, once cloned
-python3 cross_backbone_char_noise.py   # -> outputs/exp_cross_backbone_char_noise/predictions.zip
+python3 experiments/cross_backbone_char_noise.py   # -> outputs/exp_cross_backbone_char_noise/predictions.zip
 ```
 
 `train.py` + `predict.py` are the earlier, simpler baseline pipeline (plain ensemble, no
@@ -74,9 +76,9 @@ python3 train.py --mode final  # trains + saves the models predict.py uses
 python3 predict.py             # -> outputs/predictions.zip
 ```
 
-Every other `*_check.py` and `cross_backbone_*.py` script in this repo is one individually
-leaderboard-scored ablation from `SUBMISSIONS_LOG.md` / the paper's ablation table — each
-is self-contained and runnable the same way.
+Every other script under `experiments/` is one individually leaderboard-scored ablation
+from `SUBMISSIONS_LOG.md` / the paper's ablation table — each is self-contained and
+runnable the same way, e.g. `python3 experiments/fgm_epsilon_sweep.py`.
 
 A CUDA GPU is strongly recommended (set `CUDA_VISIBLE_DEVICES` for your setup); see
 `requirements.txt` for the exact package versions used in our experiments.
