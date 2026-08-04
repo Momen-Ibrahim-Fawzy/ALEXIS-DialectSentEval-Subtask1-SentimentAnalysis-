@@ -43,6 +43,8 @@ system code behind our DialectSentEval 2026 Subtask 1 system-description paper.
 | `train.py` | `--mode {cv, lodo, final}` — see below |
 | `predict.py` | builds `outputs/predictions.csv` + `outputs/predictions.zip` |
 | `predict_single_backbone.py` | prediction with a single backbone (diagnostic) |
+| `run_experiment.py` | `--technique {name, all}` — runs one technique at a time against the same base backbone, each independently CV'd and leaderboard-scored; imported as `run_experiment as re` by most scripts in `experiments/` |
+| `log_submission.py` | `--tag <name> --note "..."` snapshots a submission (predictions + config + CV/LODO metrics) into `submissions/` and logs it to `SUBMISSIONS_LOG.md`; `--record <tag> --f1 ...` records the official leaderboard score once it's back |
 | `regenerate_reports.py` | rebuilds summary reports from logged submissions |
 | `SUBMISSIONS_LOG.md` | full experiment log: every technique tried, CV/official metrics |
 | `experiments/` | every `*_check.py`, `cross_backbone_*.py`, and `self_train_*.py` script — one file per individually leaderboard-scored ablation, referenced in `SUBMISSIONS_LOG.md` and in the paper's ablation table. Each imports the root-level modules above directly (e.g. `import config as cfg`) via a small `sys.path` shim at the top of the file, so run them from anywhere — no path changes needed. |
