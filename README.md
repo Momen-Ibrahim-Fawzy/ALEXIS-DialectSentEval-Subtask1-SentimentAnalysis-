@@ -128,6 +128,23 @@ that to `outputs/predictions.csv` / `outputs/predictions.zip`.
   multi-backbone soft-voting on small Arabic sentiment datasets, motivating the ensemble
   design here.
 
+## 🎤 ArabicNLP 2026 Poster & Presentation
+
+Poster and slides for **The Fourth Arabic Natural Language Processing Conference (ArabicNLP 2026)**,
+co-located with **EMNLP 2026**, Budapest, Hungary (October 28–29, 2026).
+
+<p align="center">
+  <a href="presentation/ALEXIS_Poster_DialectSentEval_Subtask1_SentimentAnalysis.pdf"><img src="presentation/poster_preview.png" alt="ALEXIS poster" width="520"/></a>
+</p>
+
+| | |
+|---|---|
+| 🖼️ Poster | [PDF](presentation/ALEXIS_Poster_DialectSentEval_Subtask1_SentimentAnalysis.pdf) |
+| 📊 Slides | [PDF](presentation/ALEXIS_DialectSentEval_Subtask1_SentimentAnalysis_Presentation.pdf) · [PowerPoint](presentation/ALEXIS_DialectSentEval_Subtask1_SentimentAnalysis_Presentation.pptx) |
+| 🎬 Poster video | [MP4 download](https://github.com/Momen-Ibrahim-Fawzy/ALEXIS-DialectSentEval-Subtask1-SentimentAnalysis-/releases/download/arabicnlp2026/ALEXIS_Poster_DialectSentEval_Subtask1_SentimentAnalysis_final.mp4) (from the [release](https://github.com/Momen-Ibrahim-Fawzy/ALEXIS-DialectSentEval-Subtask1-SentimentAnalysis-/releases/tag/arabicnlp2026)) |
+
+---
+
 ## Citation
 
 If you use this code, please cite our DialectSentEval 2026 system-description paper
